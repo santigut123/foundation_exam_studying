@@ -1,0 +1,97 @@
+#+TITLE: May16_practice
+* Section I A
+** Complete the function below, to create a recursive function productDigits that takes in 1 parameter, a non-negative integer, n, and returns the product of n's digits. For example productDigits(232) will return 12 (2 x 3 x 2), and productDigits(13999019) will return 0.
+#+BEGIN_SRC C
+int productDigits(int number){
+    //3 2450/10 2 2
+    if(number<10){
+        return number;
+    }
+    else{
+       int dig= number%10;
+       int product=dig*productDigits((number/10));
+       return product;
+    }
+
+}
+int main(void){
+    int test=2453;
+    printf("The result is %d",productDigits(test));
+}
+#+END_SRC
+
+#+RESULTS:
+: The result is 120
+** Determine the value of the following summation, in terms of n: ∑ (4𝑖 + 7)2𝑛 𝑖=1 to 2N. Express your final answer as a polynomial in the form an2 + bn, where a and b are integers.
+Written on paper.
+** A stack of positive integers is implemented using the struct shown below. Using this implementation of the stack write the push and peek functions. Assume that when a struct stack is empty, its top variable is equal to -1.
+
+** Determine the best case run time in terms n for each of the following functions/operations.
+a) Finding the maximum value in an unsorted linked list of n elements: O(n)
+b) Inserting an item into a binary search tree of n elements: O(1)
+c) Inserting an item into a binary heap of n elements: O(1)
+d) Sorting an array of n elements using Merge Sort: O(log(n))
+e) Deleting an element from a circular linked list of n elements: O(1)
+** Determine the worst case run time in terms of n for each of the following functions/operations.
+f) Deleting an item from an AVL tree of n elements: O(log(n))
+g) Deleting the minimum item from a binary min heap of n elements: O(1)
+h) Inserting an item into a binary search tree of n elements: log(n)
+i) Sorting an array of n elements using Heap Sort : nlog(n)
+j) Deleting an element from a doubly linked list of n elements: 0(n)
+** Given that a function has time complexity O(n^2), if the function takes 338 ms for an input of size 13000, how long will the same function take for an input of size 8000?
+(.338)= (13000)^2* x
+x= 2*10^-9
+8000^2 * x=.128
+** What is the run-time of the segment of code below, in terms of the variables n and k? Please provide a Big-Oh bound and briefly justify your answer. (Assume k has already been defined as set to a value prior to the code segment shown.)
+#+BEGIN_SRC C
+n=10000; k=123232;
+int i, total = 0;
+for (i=0; i<n; i+=2) {
+ int start = k;
+ while (start > 0) {
+ total += ((k|i) & start);
+ start /= 2;
+ }
+}
+#+END_SRC
+The outer loop runs n/2 times since it increments by 2. Then it sets start to k and the while loop also runs log2(k) since it is dividing by 2 every time.
+so the final run-time is (n/2)*(log2(k))
+** Write a function, mode, that takes in a pointer to the front of a linked list storing integers, and returns the mode of the list of integers. Recall that the mode of a list of values is the value that occurs most frequently. You may assume that all of the integers in the list are in between 0 and 999, inclusive. If there is more than one mode, your function must return the smallest of all of the modes. (For example, if the list contains the values 2, 4, 3, 2, 2, 4, 1, and 4, your function must return 2 and should NOT return 4, since both 2 and 4 occur three times in the list but 2 is smaller than 4.) Hint: declare an auxiliary array inside of the mode function. You may assume that the list pointed to by front is non-empty.
+#+BEGIN_SRC C
+int mode(node* front){
+    node* current=front;
+    int modeCounts[MAX];
+    int max_count=-1;
+    //find the maximum count
+    while(current!=NULL){
+        modeCounts[current->value]++;
+        if(modeCounts[current->value]>max_count){
+            max_count=modeCounts[current->value];
+        }
+        current=current->next;
+    }
+    for(int i=0;i<MAX;i++){
+        if(modeCounts[i]==max_counts){
+            return i;
+        }
+    }
+#+END_SRC
+** For this problem you will write a modified inorder traversal of a binary tree. In a regular inorder traversal, you simply visit the nodes of the tree "in order". Consider the added task of adding up all of the numbers as you see them in the traversal, one by one, and printing out each intermediate sum. For example, if the input binary tree was:the corresponding inorder traversal would visit 3, 15, 10, 12, 10(root), 8 and 17, in that order. For the added task, the traversal should print out 3, 18, 28, 40, 50, 58 and 75, respectively, the running sums after visiting each value. Complete the function below, recursively, so that is performs the given task. One way to accomplish this is to have the function take in a second value, prevSum, representing the previous sum of values prior to visiting the given node, and also to have the function return the sum of the nodes in its subtree.
+#+BEGIN_SRC C
+typedef struct treenode {
+ int value;
+ struct treenode *left;
+ struct treenode *right;
+} treenode;
+
+int inorderSum(treenode* root, int prevSum) {
+ if (root == NULL) return 0;
+ int sum = 0;
+ sum += inorderSum(root->left,prevSum);
+ sum += root->value;
+ printf("%d ",sum+prevSum);
+ sum += inorderSum(root->right,prevSum+sum);
+ return sum;
+}
+#+END_SRC
+** For this question, implement the (very slow) sorting algorithm described below: 1. Randomly choose two distinct array indexes, i and j. (If i and j are equal, choose again.) 2. If array[min(i,j)] > array[max(i,j)], swap the two values.3. Check if the array is sorted. If it's not, go back to step 1. If it is, return. Recall that the function call rand() returns a random non-negative integer, so rand()%n will equala random integer in between 0 and n-1.

@@ -1,0 +1,9 @@
+#+TITLE: Sorts_review
+* Selection sort
+** Grabs the largest or smallest element(by index) and swaps it to the largest or smallest index correspondingly until the list is sorted.
+** SELECTS THE HIGHEST OR LOWEST VALUE.
+** Should work with indexes bc otherwise it just makes duplicates
+* Merge Sort
+* Insertion sort
+* Quick Sort
+*
